@@ -37,6 +37,7 @@ public class Article implements Parcelable
 
 
     public  Article() {
+        articleID = 12;
         title = "The best moments in football in history";
         publishedDate = "3rd of October, 2017";
         text = "There was a big challenge in football history";
