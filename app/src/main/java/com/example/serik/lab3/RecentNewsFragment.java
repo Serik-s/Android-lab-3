@@ -92,7 +92,10 @@ public class RecentNewsFragment extends Fragment {
                         List<Article> articles = jsoNmodel.getResponse().getArticles();
                         System.out.println(response.body());
                         for (Article article : articles) {
-                            Log.e("Article", article.getTitle().getPrintHeadline());
+//                            Log.e("Article", article.getTitle().getPrintHeadline());
+                            if (article.imageURL.isEmpty() == false){
+                                Log.d("Image URL", article.getMultimedium().get(0).getUrl());
+                            }
                         }
                         newsList.clear();
                         newsList.addAll(articles);

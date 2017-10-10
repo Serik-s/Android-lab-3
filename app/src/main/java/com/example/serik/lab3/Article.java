@@ -11,6 +11,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Serik on 25.09.17.
@@ -36,8 +37,9 @@ public class Article implements Parcelable
     @Expose
     public String text;
 
-    @SerializedName("uri")
-    public String imageURL;
+    @SerializedName("multimedia")
+    @Expose
+    public List<Multimedium> imageURL = null;
 
     @SerializedName("section_name")
     @Expose
@@ -54,7 +56,7 @@ public class Article implements Parcelable
     }
 
     @Ignore
-    public Article(int articleID, Headline title, String publishedDate, String text, String imageURL, String category) {
+    public Article(int articleID, Headline title, String publishedDate, String text, List<Multimedium> imageURL, String category) {
         this.articleID = articleID;
         this.title = title;
         this.publishedDate = publishedDate;
@@ -69,7 +71,7 @@ public class Article implements Parcelable
         title = in.readParcelable(Headline.class.getClassLoader());
         publishedDate = in.readString();
         text = in.readString();
-        imageURL = in.readString();
+        imageURL = in.readArrayList(Multimedium.class.getClassLoader());
         category = in.readString();
     }
 
@@ -94,6 +96,8 @@ public class Article implements Parcelable
     }
 
     String getText() {return text;}
+
+    List<Multimedium> getMultimedium() { return imageURL; }
 
     public void setTitle(Headline title) {
         this.title = title;
@@ -120,7 +124,7 @@ public class Article implements Parcelable
         parcel.writeParcelable(title, i);
         parcel.writeString(publishedDate);
         parcel.writeString(text);
-        parcel.writeString(imageURL);
+        parcel.writeTypedList(imageURL);
         parcel.writeString(category);
     }
 }
