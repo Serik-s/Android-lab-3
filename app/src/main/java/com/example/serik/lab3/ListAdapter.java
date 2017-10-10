@@ -46,7 +46,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             MyViewHolder viewHolder = (MyViewHolder) holder;
             Article article = newsList.get(position);
             viewHolder.setPosition(position);
-            viewHolder.articleTitle.setText(article.getTitle());
+            viewHolder.articleTitle.setText(article.getTitle().getPrintHeadline());
             viewHolder.articleDate.setText(article.getDate());
     }
 

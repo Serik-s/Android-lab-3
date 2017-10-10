@@ -7,46 +7,54 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Date;
 
 /**
  * Created by Serik on 25.09.17.
  */
 
-@Entity(tableName = "news")
+//@Entity(tableName = "news")
 public class Article implements Parcelable
 {
-    @PrimaryKey
-    @ColumnInfo(name = "articleID")
+    @SerializedName("articleID")
+    @Expose
+//    @PrimaryKey
     public  int articleID;
 
-    @ColumnInfo(name = "title")
-    public String title;
+    @SerializedName("headline")
+    @Expose
+    public Headline title;
 
-    @ColumnInfo(name = "publishedDate")
+    @SerializedName("pub_date")
+    @Expose
     public String publishedDate;
 
-    @ColumnInfo(name = "text")
+    @SerializedName("snippet")
+    @Expose
     public String text;
 
-    @ColumnInfo(name = "imageURL")
+    @SerializedName("uri")
     public String imageURL;
 
-    @ColumnInfo(name = "category")
+    @SerializedName("section_name")
+    @Expose
     public String category;
 
 
     public  Article() {
-        articleID = 12;
-        title = "The best moments in football in history";
-        publishedDate = "3rd of October, 2017";
-        text = "There was a big challenge in football history";
-        imageURL = "football";
-        category = "Sport";
+//        articleID = 12;
+//        title = "The best moments in football in history";
+//        publishedDate = "3rd of October, 2017";
+//        text = "There was a big challenge in football history";
+//        imageURL = "football";
+//        category = "Sport";
     }
 
     @Ignore
-    public Article(int articleID, String title, String publishedDate, String text, String imageURL, String category) {
+    public Article(int articleID, Headline title, String publishedDate, String text, String imageURL, String category) {
         this.articleID = articleID;
         this.title = title;
         this.publishedDate = publishedDate;
@@ -55,28 +63,14 @@ public class Article implements Parcelable
         this.category = category;
     }
 
+
     protected Article(Parcel in) {
         articleID = in.readInt();
-        title = in.readString();
+        title = in.readParcelable(Headline.class.getClassLoader());
         publishedDate = in.readString();
         text = in.readString();
         imageURL = in.readString();
         category = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(articleID);
-        dest.writeString(title);
-        dest.writeString(publishedDate);
-        dest.writeString(text);
-        dest.writeString(imageURL);
-        dest.writeString(category);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {
@@ -91,7 +85,7 @@ public class Article implements Parcelable
         }
     };
 
-    String getTitle() {
+    Headline getTitle() {
         return title;
     }
 
@@ -99,7 +93,9 @@ public class Article implements Parcelable
         return publishedDate;
     }
 
-    public void setTitle(String title) {
+    String getText() {return text;}
+
+    public void setTitle(Headline title) {
         this.title = title;
     }
 
@@ -107,8 +103,24 @@ public class Article implements Parcelable
         this.text = text;
     }
 
+    public void setDate(String date) { this.publishedDate =  date; }
     @Override
     public String toString() {
         return title + " " + publishedDate + "\n";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(articleID);
+        parcel.writeParcelable(title, i);
+        parcel.writeString(publishedDate);
+        parcel.writeString(text);
+        parcel.writeString(imageURL);
+        parcel.writeString(category);
     }
 }

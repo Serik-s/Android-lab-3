@@ -30,10 +30,10 @@ public class ArticleDetailsActivity extends AppCompatActivity {
         TextView text = (TextView) findViewById(R.id.articleText);
         TextView date = (TextView) findViewById(R.id.articleDate);
 //        ImageView image = (ImageView) findViewById(R.id.articleImage);
-
+//
 //        image.setImageResource(R.drawable.dota);
-        title.setText(article.title);
-        text.setText(article.text);
-        date.setText(article.publishedDate);
+        title.setText(article.getTitle().getPrintHeadline());
+        text.setText(article.getText());
+        date.setText(article.getDate());
     }
 }
